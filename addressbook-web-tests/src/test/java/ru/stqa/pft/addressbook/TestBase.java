@@ -4,7 +4,8 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-
+import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Condition.*;
 import java.util.concurrent.TimeUnit;
 
 public class TestBase {
@@ -17,10 +18,24 @@ public class TestBase {
   public void setUp() throws Exception {
     //driver = new FirefoxDriver();
     wd = new ChromeDriver();
+
     //baseUrl = "https://www.katalon.com/";
     wd.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     wd.get("http://localhost:8080/addressbook/group.php");
+
     login("admin", "secret");
+    //selenideLogin("admin", "secret");
+  }
+
+  public void selenideLogin(String username, String password){
+    open("http://localhost:8080/addressbook/group.php");
+    $(By.name("user")).setValue(username);
+    $(By.name("pass")).setValue(password);
+    $(By.xpath("//form[@id='LoginForm']/input[3]")).click();
+  }
+
+  public void selenideLogout(){
+    $(By.linkText("Logout")).click();
   }
 
   private void login(String username, String password) {
@@ -72,6 +87,7 @@ public class TestBase {
 
   @AfterMethod
   public void tearDown() throws Exception {
+    //selenideLogout();
     wd.quit();
   }
 

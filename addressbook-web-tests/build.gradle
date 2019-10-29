@@ -7,4 +7,5 @@ repositories{
 dependencies {
     implementation 'org.testng:testng:7.0.0'
     compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
+    testCompile 'com.codeborne:selenide:5.4.1'
 }
