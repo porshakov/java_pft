@@ -1,5 +1,6 @@
 package ru.stqa.pft.addressbook.tests;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.*;
 import ru.stqa.pft.addressbook.model.GroupData;
 
