@@ -9,8 +9,20 @@ public class ContactHelper extends HelperBase{
     super(wd);
   }
 
-  public void returnToContactPage() {
-    click(By.linkText("home"));
+  public void selectContact() {
+    click(By.name("selected[]"));
+  }
+
+  public void initContactModification() {
+    click(By.xpath("//a[contains(@href, 'edit.php?id=')]"));
+  }
+
+  public void submitContactModification(){
+    click(By.name("update"));
+  }
+
+  public void searchContact(String name){
+    type(By.name("searchstring"), name);
   }
 
   public void submitContactCreation() {
