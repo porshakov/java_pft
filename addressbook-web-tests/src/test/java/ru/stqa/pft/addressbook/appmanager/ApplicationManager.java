@@ -2,6 +2,9 @@ package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import sun.plugin2.util.BrowserType;
 
 import java.util.concurrent.TimeUnit;
 
@@ -18,6 +21,11 @@ public class ApplicationManager {
   private String baseUrl;
   private boolean acceptNextAlert = true;
   private StringBuffer verificationErrors = new StringBuffer();
+  private int browser;
+
+  public ApplicationManager(int browser) {
+    this.browser = browser;
+  }
 
   public void stop() {
     //selenideLogout();
@@ -26,7 +34,14 @@ public class ApplicationManager {
 
   public void init() {
     //driver = new FirefoxDriver();
-    wd = new ChromeDriver();
+    if(browser == BrowserType.MOZILLA){
+      wd = new FirefoxDriver();
+    } else if(browser == BrowserType.DEFAULT){
+      wd = new ChromeDriver();
+    } else if(browser == BrowserType.INTERNET_EXPLORER){
+      wd = new InternetExplorerDriver();
+    }
+    //wd = new ChromeDriver();
 
     //baseUrl = "https://www.katalon.com/";
     wd.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
