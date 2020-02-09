@@ -44,7 +44,7 @@ public class ApplicationManager {
     //wd = new ChromeDriver();
 
     //baseUrl = "https://www.katalon.com/";
-    wd.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+    wd.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
     wd.get("http://localhost:8080/addressbook/group.php");
     groupHelper = new GroupHelper(wd);
     navigationHelper = new NavigationHelper(wd);
