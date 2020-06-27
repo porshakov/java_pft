@@ -55,4 +55,18 @@ public class ContactHelper extends HelperBase{
     click(By.xpath("//input[@value='Delete']"));
     wd.switchTo().alert().accept();
   }
+
+  public void createContact(ContactData contactData, boolean b) {
+    initContactCreation();
+    fillContactForm(contactData, b);
+    submitContactCreation();
+  }
+
+  public boolean isThereContact() {
+      return isElementPresent(By.name("selected[]"));
+  }
+
+  public void selectAll(){
+    click(By.id("MassCB"));
+  }
 }

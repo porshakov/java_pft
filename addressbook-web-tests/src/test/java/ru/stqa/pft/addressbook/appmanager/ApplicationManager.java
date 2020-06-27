@@ -34,10 +34,10 @@ public class ApplicationManager {
 
   public void init() {
     //driver = new FirefoxDriver();
-    if(browser == BrowserType.MOZILLA){
-      wd = new FirefoxDriver();
-    } else if(browser == BrowserType.DEFAULT){
+    if(browser == BrowserType.DEFAULT){
       wd = new ChromeDriver();
+    } else if(browser == BrowserType.MOZILLA){
+      wd = new FirefoxDriver();
     } else if(browser == BrowserType.INTERNET_EXPLORER){
       wd = new InternetExplorerDriver();
     }
