@@ -2,10 +2,14 @@ package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
+import ru.stqa.pft.addressbook.model.GroupData;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 public class ContactHelper extends HelperBase{
@@ -13,12 +17,12 @@ public class ContactHelper extends HelperBase{
     super(wd);
   }
 
-  public void selectContact() {
-    click(By.name("selected[]"));
+  public void selectContact(int index) {
+    wd.findElements(By.name("selected[]")).get(index).click();
   }
 
-  public void initContactModification() {
-    click(By.xpath("//a[contains(@href, 'edit.php?id=')]"));
+  public void initContactModification(int id) {
+    click(By.xpath("//a[contains(@href, 'edit.php?id="+ id + "')]"));
   }
 
   public void submitContactModification(){
@@ -60,6 +64,11 @@ public class ContactHelper extends HelperBase{
     initContactCreation();
     fillContactForm(contactData, b);
     submitContactCreation();
+    returnToContactPage();
+  }
+
+  private void returnToContactPage() {
+    click(By.linkText("home"));
   }
 
   public boolean isThereContact() {
@@ -69,4 +78,24 @@ public class ContactHelper extends HelperBase{
   public void selectAll(){
     click(By.id("MassCB"));
   }
+
+  public List<ContactData> getContactList() {
+    List<ContactData> contacts = new ArrayList<ContactData>();
+    List<WebElement> elements = wd.findElements(By.name("selected[]"));
+    for(WebElement element: elements){
+      String title = element.getAttribute("title");
+      String[] arrTitle = title.split(" ");
+      String name = arrTitle[1].substring(1);
+      String surname = arrTitle[2].substring(0, arrTitle[2].length() - 1);;
+      int id = Integer.parseInt(element.getAttribute("id"));
+      ContactData contact = new ContactData(id, name,null, surname, null, null, null,null);
+      contacts.add(contact);
+    }
+    return contacts;
+  }
+
+  /*public void setContactList(List<ContactData> contactList) {
+    this.contactList = contactList;
+  }
+  */
 }

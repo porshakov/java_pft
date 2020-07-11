@@ -33,7 +33,6 @@ public class ApplicationManager {
   }
 
   public void init() {
-    //driver = new FirefoxDriver();
     if(browser == BrowserType.DEFAULT){
       wd = new ChromeDriver();
     } else if(browser == BrowserType.MOZILLA){
@@ -41,7 +40,6 @@ public class ApplicationManager {
     } else if(browser == BrowserType.INTERNET_EXPLORER){
       wd = new InternetExplorerDriver();
     }
-    //wd = new ChromeDriver();
 
     //baseUrl = "https://www.katalon.com/";
     wd.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
