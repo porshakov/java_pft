@@ -8,14 +8,12 @@ import java.util.Comparator;
 import java.util.List;
 
 public class ContactModificationTests extends TestBase{
-  @Test
+  @Test(enabled = false)
   public void testContactModification(){
     app.getNavigationHelper().gotoContactPage();
-    //app.getContactHelper().searchContact("Smith");
     if(! app.getContactHelper().isThereContact()) {
       app.getContactHelper().createContact(new ContactData("John", "F.", "Smith", "user1", "+134637543", "test@mail.com", "test1"), true);
       app.getNavigationHelper().gotoContactPage();
-      //app.getContactHelper().searchContact("Smith");
     }
     List<ContactData> before = app.getContactHelper().getContactList();
 
