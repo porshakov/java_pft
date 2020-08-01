@@ -7,23 +7,24 @@ import java.util.Comparator;
 import java.util.List;
 
 public class ContactModificationTests extends TestBase{
-  @Test(enabled = false)
+  @Test(enabled = true)
   public void testContactModification(){
     app.goTo().gotoContactPage();
-    if(! app.getContactHelper().isThereContact()) {
-      app.getContactHelper().createContact(new ContactData("John", "F.", "Smith", "user1", "+134637543", "test@mail.com", "test1"), true);
+    if(! app.contact().isThereContact()) {
+      app.contact().createContact(new ContactData().withFirstname("John").withMiddlename("F").withLastname("Smith").withNickname("user1").withMobilePhone("+134637543")
+              .withEmail("test@mail.com").withGroup("test1"), true);
       app.goTo().gotoContactPage();
     }
-    List<ContactData> before = app.getContactHelper().getContactList();
+    List<ContactData> before = app.contact().getContactList();
 
     Integer id = before.get(before.size() - 1).getId();
-    app.getContactHelper().initContactModification(id);
-    ContactData contact = new ContactData(id, "1", "2", "3", "", "", "", null);
-    app.getContactHelper().fillContactForm(contact, false);
-    app.getContactHelper().submitContactModification();
+    app.contact().initContactModification(id);
+    ContactData contact = new ContactData().withFirstname("1").withMiddlename("2").withLastname("3");
+    app.contact().fillContactForm(contact, false);
+    app.contact().submitContactModification();
     app.goTo().gotoContactPage();
 
-    List<ContactData> after = app.getContactHelper().getContactList();
+    List<ContactData> after = app.contact().getContactList();
     //Assert.assertEquals(before.size(), after.size());
 
     before.remove(before.size() - 1);

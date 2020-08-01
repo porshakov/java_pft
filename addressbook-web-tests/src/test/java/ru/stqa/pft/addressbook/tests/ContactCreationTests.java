@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ContactCreationTests extends TestBase {
 
-  @Test(enabled = false)
+  @Test(enabled = true)
   public void TestContactCreation() throws Exception{
     if(!app.group().isThereGroup()){
       app.goTo().groupPage();
@@ -18,10 +18,12 @@ public class ContactCreationTests extends TestBase {
     }
 
     app.goTo().gotoHomePage();
-    List<ContactData> before = app.getContactHelper().getContactList();
-    ContactData contact = new ContactData("John", "F.", "Smith", "user1", "+134637543","test@mail.com", "test1");
-    app.getContactHelper().createContact(contact, true);
-    List<ContactData> after = app.getContactHelper().getContactList();
+    List<ContactData> before = app.contact().getContactList();
+    ContactData contact = new ContactData().withFirstname("John").withMiddlename("F").withLastname("Smith").withNickname("user1").withMobilePhone("+134637543")
+    .withEmail("test@mail.com").withGroup("test1");
+    //ContactData contact = new ContactData("John", "F.", "Smith", "user1", "+134637543","test@mail.com", "test1");
+    app.contact().createContact(contact, true);
+    List<ContactData> after = app.contact().getContactList();
     Assert.assertEquals(after.size(), before.size() + 1);
 
     before.add(contact);
