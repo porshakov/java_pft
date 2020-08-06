@@ -9,7 +9,11 @@ import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 
+import java.lang.reflect.Array;
 import java.util.*;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.*;
 
 public class ContactHelper extends HelperBase{
   public ContactHelper(WebDriver wd) {
@@ -74,6 +78,10 @@ public class ContactHelper extends HelperBase{
       return isElementPresent(By.name("selected[]"));
   }
 
+  public int count(){
+    return wd.findElements(By.name("selected[]")).size();
+  }
+
   public void selectAll(){
     click(By.id("MassCB"));
   }
@@ -95,7 +103,33 @@ public class ContactHelper extends HelperBase{
 
   private Contacts contactCache = null;
 
-  public Set<ContactData> all(){
+  public Contacts all(){
+    if(contactCache != null){
+      return new Contacts(contactCache);
+    }
+    contactCache = new Contacts();
+    List<WebElement> rows = wd.findElements(By.name("entry"));
+    for(WebElement row : rows){
+      List<WebElement> cells = row.findElements(By.tagName("td"));
+      int id = Integer.parseInt(cells.get(0).findElement(By.tagName("input")).getAttribute("value"));
+      String lastname = cells.get(1).getText();
+      String firstname = cells.get(2).getText();
+      String address = cells.get(3).getText();
+      String allPhones = cells.get(5).getText();
+      List<WebElement> emailList  = cells.get(4).findElements(By.tagName("a"));
+      String emailsString = "";
+      for (WebElement emailLink : emailList){
+        emailsString += emailLink.getText();
+      }
+      String allEmails = emailsString;
+      contactCache.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname)
+              .withAddress(address).withAllPhones(allPhones).withAllEmails(allEmails));
+
+    }
+    return new Contacts(contactCache);
+  }
+
+  /*public Set<ContactData> all(){
     Set<ContactData> contacts = new HashSet<ContactData>();
     List<WebElement> rows = wd.findElements(By.name("entry"));
     for(WebElement row : rows){
@@ -103,12 +137,20 @@ public class ContactHelper extends HelperBase{
       int id = Integer.parseInt(cells.get(0).findElement(By.tagName("input")).getAttribute("value"));
       String lastname = cells.get(1).getText();
       String firstname = cells.get(2).getText();
+      String address = cells.get(3).getText();
       String allPhones = cells.get(5).getText();
-      contacts.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname).withAllPhones(allPhones));
+      List<WebElement> emailList  = cells.get(4).findElements(By.tagName("a"));
+      String emailsString = "";
+      for (WebElement emailLink : emailList){
+        emailsString += emailLink.getText();
+      }
+      String allEmails = emailsString;
+      contacts.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname)
+              .withAddress(address).withAllPhones(allPhones).withAllEmails(allEmails));
 
     }
     return contacts;
-  }
+  }*/
 
 
   public ContactData infoFromEditForm(ContactData contact) {
@@ -118,9 +160,15 @@ public class ContactHelper extends HelperBase{
     String home = wd.findElement(By.name("home")).getAttribute("value");
     String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
     String work = wd.findElement(By.name("work")).getAttribute("value");
+    String address = wd.findElement(By.name("address")).getText();
+    String email = wd.findElement(By.name("email")).getAttribute("value");
+    String email2 = wd.findElement(By.name("email2")).getAttribute("value");
+    String email3 = wd.findElement(By.name("email3")).getAttribute("value");
     wd.navigate().back();
     return new ContactData().withId(contact.getId()).withFirstname(firstname).withLastname(lastname)
-            .withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work);
+            .withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work).withAddress(address)
+            .withEmail(email).withEmail2(email2).withEmail3(email3);
+
   }
 
   private void initContactModificationById(int id){
