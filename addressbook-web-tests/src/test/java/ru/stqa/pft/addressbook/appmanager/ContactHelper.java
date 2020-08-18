@@ -79,6 +79,10 @@ public class ContactHelper extends HelperBase{
       return isElementPresent(By.name("selected[]"));
   }
 
+  private void selectContactById(int id) {
+    wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
+  }
+
   public int count(){
     return wd.findElements(By.name("selected[]")).size();
   }
@@ -129,6 +133,15 @@ public class ContactHelper extends HelperBase{
     }
     return new Contacts(contactCache);
   }
+
+  public void delete(ContactData contact){
+    selectContactById(contact.getId());
+    deleteSelectedContact();
+    contactCache = null;
+    returnToContactPage();
+  }
+
+
 
   /*public Set<ContactData> all(){
     Set<ContactData> contacts = new HashSet<ContactData>();
