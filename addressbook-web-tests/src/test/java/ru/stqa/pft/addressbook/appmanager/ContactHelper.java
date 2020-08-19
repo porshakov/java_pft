@@ -63,11 +63,18 @@ public class ContactHelper extends HelperBase{
     wd.switchTo().alert().accept();
   }
 
-  public void createContact(ContactData contactData, boolean b) {
+  public void create(ContactData contactData, boolean b) {
     initContactCreation();
     fillContactForm(contactData, b);
     submitContactCreation();
     contactCache = null;
+    returnToContactPage();
+  }
+
+  public void modify(ContactData contact) {
+    initContactModification(contact.getId());
+    fillContactForm(contact, false);
+    submitContactModification();
     returnToContactPage();
   }
 
@@ -195,6 +202,8 @@ public class ContactHelper extends HelperBase{
     //wd.findElement(By.xpath(String.format("//tr[.//input[@value='%s']]/td[8]/a", id))).click();
     //wd.findElement(By.cssSelector(String.format("a[href='edit.php?id=%s']", id))).click();
   }
+
+
 
   /*public void setContactList(List<ContactData> contactList) {
     this.contactList = contactList;
