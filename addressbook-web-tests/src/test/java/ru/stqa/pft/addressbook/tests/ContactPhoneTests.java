@@ -24,6 +24,17 @@ public class ContactPhoneTests extends TestBase {
     assertThat(contact.getAddress(), equalTo(contactInfoFromEditForm.getAddress()));
   }
 
+  @Test
+  public void testContactDetails(){
+    app.goTo().gotoHomePage();
+    ContactData contact = app.contact().all().iterator().next();
+    ContactData contactInfoFromEditForm = app.contact().infoFromEditForm(contact);
+    String contactInfoFromDetailsForm = app.contact().infoFromDetailsForm(contact)
+            .replaceAll("<br>", "").replaceAll("\n","");
+
+    assertThat(contactInfoFromDetailsForm ,equalTo(mergeDetails(contactInfoFromEditForm)));
+  }
+
   private String mergePhones(ContactData contact) {
     return Arrays.asList(contact.getHomePhone(), contact.getMobilePhone(), contact.getWorkPhone())
       .stream().filter((s) -> ! s.equals(""))
@@ -33,6 +44,26 @@ public class ContactPhoneTests extends TestBase {
 
   private String mergeEmails(ContactData contact){
     return Arrays.asList(contact.getEmail(), contact.getEmail2(), contact.getEmail3()).stream().collect(Collectors.joining(""));
+  }
+
+  private String mergeDetails(ContactData contact){
+    String userNameSplit = contact.getFirstname() + " "+ contact.getLastname();
+    if(!contact.getMiddlename().equals(""))
+      userNameSplit = contact.getFirstname() + " " + contact.getMiddlename() + " " + contact.getLastname();
+
+    String homePhone = contact.getHomePhone();
+    if(!homePhone.equals(""))
+      homePhone = "H: " + contact.getHomePhone();
+    String mobilePhone = contact.getMobilePhone();
+    if(!mobilePhone.equals(""))
+      mobilePhone = "M: " + contact.getMobilePhone();
+    String workPhone = contact.getWorkPhone();
+    if(!workPhone.equals(""))
+      workPhone = "W: " + contact.getWorkPhone();
+
+    return Arrays
+            .asList(userNameSplit, contact.getNickname(), contact.getAddress(), homePhone, mobilePhone, workPhone, contact.getEmail(), contact.getEmail2(), contact.getEmail3())
+            .stream().collect(Collectors.joining(""));
   }
 
   public static String cleaned(String phone){

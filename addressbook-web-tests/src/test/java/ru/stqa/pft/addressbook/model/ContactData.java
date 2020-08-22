@@ -38,6 +38,7 @@ public class ContactData {
     return this;
   }
 
+
   /*public ContactData(String firstname, String middlename, String lastname, String nickname, String mobile, String email, String group) {
     this.id = Integer.MAX_VALUE;
     this.firstname = firstname;
@@ -124,6 +125,10 @@ public class ContactData {
     this.group = group;
     return this;
   }
+
+
+
+
 
   public void setId(int id){
     this.id = id;

@@ -28,6 +28,10 @@ public class ContactHelper extends HelperBase{
     click(By.xpath("//a[contains(@href, 'edit.php?id="+ id + "')]"));
   }
 
+  public void initContactDetails(int id){
+    click(By.xpath("//a[contains(@href, 'view.php?id=" + id + "')]"));
+  }
+
   public void submitContactModification(){
     click(By.name("update"));
   }
@@ -177,7 +181,9 @@ public class ContactHelper extends HelperBase{
   public ContactData infoFromEditForm(ContactData contact) {
     initContactModificationById(contact.getId());
     String firstname = wd.findElement(By.name("firstname")).getAttribute("value");
+    String middlename = wd.findElement(By.name("middlename")).getAttribute("value");
     String lastname = wd.findElement(By.name("lastname")).getAttribute("value");
+    String nickname = wd.findElement(By.name("nickname")).getAttribute("value");
     String home = wd.findElement(By.name("home")).getAttribute("value");
     String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
     String work = wd.findElement(By.name("work")).getAttribute("value");
@@ -186,10 +192,16 @@ public class ContactHelper extends HelperBase{
     String email2 = wd.findElement(By.name("email2")).getAttribute("value");
     String email3 = wd.findElement(By.name("email3")).getAttribute("value");
     wd.navigate().back();
-    return new ContactData().withId(contact.getId()).withFirstname(firstname).withLastname(lastname)
-            .withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work).withAddress(address)
-            .withEmail(email).withEmail2(email2).withEmail3(email3);
+    return new ContactData().withId(contact.getId()).withFirstname(firstname).withMiddlename(middlename)
+            .withLastname(lastname).withNickname(nickname).withHomePhone(home).withMobilePhone(mobile)
+            .withWorkPhone(work).withAddress(address).withEmail(email).withEmail2(email2).withEmail3(email3);
 
+  }
+
+  public String infoFromDetailsForm(ContactData contact){
+    initContactDetails(contact.getId());
+    String content = wd.findElement(By.id("content")).getText();
+    return content;
   }
 
   private void initContactModificationById(int id){
