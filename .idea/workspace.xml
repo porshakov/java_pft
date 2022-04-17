@@ -316,7 +316,7 @@
       <recent name="ru.stqa.pft.addressbook" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.DistanceTests">
+  <component name="RunManager" selected="Gradle.SquareTests">
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
@@ -467,10 +467,10 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.DistanceTests" />
         <item itemvalue="Gradle.SquareTests" />
         <item itemvalue="Gradle.PrimeTests" />
         <item itemvalue="Gradle.EquationTests" />
+        <item itemvalue="Gradle.DistanceTests" />
         <item itemvalue="TestNG.ContactPhoneTests.testContactDetails" />
       </list>
     </recent_temporary>
